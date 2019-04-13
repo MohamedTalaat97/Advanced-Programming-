@@ -5,6 +5,7 @@ public class server {
 
 
     public static void main(String[] args) throws Exception {
+
         System.out.println("The server is running.");
         int clientNumber = 0;
         ServerSocket listener1 = new ServerSocket(9898);
@@ -12,10 +13,11 @@ public class server {
 
         try {
             while (true) {
-                /* the server waits here till a client reaches at accept() method. (a.k.a. a client created a socket at port 9898)
-                just a client reached; it enters Capitalizer constructor and starts the Capitalizer thread*/
+
+                new Transpose(listener2, clientNumber++).start();
+                System.out.println("The server is between ");
                 new Determinate(listener1.accept(), clientNumber++).start();
-               // new Transpose(listener2.accept(), clientNumber++).start();
+
             }
         } finally {
             listener1.close();
@@ -55,7 +57,7 @@ public class server {
                         System.out.println("messege received null");
                     }
                     m.print();
-                    out.writeObject(m.determinantOfMatrix(m.getNumbers(),m.getNRows()));
+                    out.writeObject(m.det());
 
             } catch (IOException e) {
                 System.out.println("Error handling client# " + clientNumber + ": " + e);
@@ -74,15 +76,22 @@ public class server {
     private static class Transpose extends Thread {
         private Socket socket;
         private int clientNumber;
+        private ServerSocket listener;
 
-        public Transpose(Socket socket, int clientNumber) {
-            this.socket = socket;
+        public Transpose( ServerSocket listener,int clientNumber) {
+           this.listener = listener;
             this.clientNumber = clientNumber;
             System.out.println("New connection with client# " + clientNumber + " at " + socket);
         }
 
         public void run() {
 
+            try {
+                this.socket = listener.accept();
+
+            }catch (IOException e){
+
+            }
             System.out.println(" new thread is made ");
 
             Matrix m = null;
@@ -125,5 +134,4 @@ public class server {
 
     }
 
-}
 }

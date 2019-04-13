@@ -9,8 +9,9 @@
 	 * whether we are sending from the client to server or the opposite
      */
 
-import java.io.*;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 class UDPServer
 {
@@ -26,6 +27,7 @@ class UDPServer
                   DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                   //wait till it receives the data
 				  serverSocket.receive(receivePacket);
+				  System.out.println("The server is between ");
 				  //get the data and print it
                   String sentence = new String( receivePacket.getData());
                   System.out.println("RECEIVED: " + sentence);

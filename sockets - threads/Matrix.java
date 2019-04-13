@@ -115,7 +115,11 @@ public class Matrix  implements  Adorable<Matrix>, Serializable {
     {
         return  numbers;
     }
+public int det ()
+{
 
+    return (array[0] *array[3]) - (array[2]*array[1]);
+}
 
      int determinantOfMatrix(int [][] mat,int n)
     {
